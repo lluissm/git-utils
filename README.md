@@ -1,6 +1,7 @@
 # git-utils
 
-Bulk clone git repositories of your account and/or organization. Update them in bulk to be up-to-date with the changes.
+Bulk clone git repositories of your GitHub account or organization. 
+Update them in bulk to be up-to-date with the changes.
 
 ## Setup
 
