@@ -7,8 +7,19 @@ clone_repos() {
   echo 'For which user or organization do you wish to clone all repos: '
   read -r user_or_org
 
+  incl_archived=0
+  while true; do
+      echo "Do you want to include archived repos? (Y/n): "
+      read -r yn
+      case $yn in
+          [Yy]* ) incl_archived=1; break;;
+          [Nn]* ) break;;
+          * ) printf "Please answer yes or no\n";;
+      esac
+  done
+
   # Create a tmp file with all the repositories for that user/org
-  gh repo list "$user_or_org" | awk NF=1 > repos
+  gh repo list "$user_or_org" $( (( incl_archived==0 )) && printf %s '--no-archived') | awk NF=1 > repos
 
   # Clone all the repositories
   while read p; do
