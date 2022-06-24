@@ -1,16 +1,18 @@
 # git-utils
 
-Bulk clone git repositories of your GitHub account or organization (uses GitHub CLI) typing `clone_repos`.
+Bulk clone git repositories from your GitHub account/organization (using GitHub CLI) by typing `clone_repos`.
 
-Update them in bulk to be up-to-date with the changes typing `update_repos`.
+Update all the git repositories in a folder by typing `update_repos`.
 
 ![Header](example.gif)
 
 ## Setup
 
-1. Install [GitHub CLI](https://cli.github.com)
-2. Paste the content of `bulk-utils.sh` into your bashrc or zshrc
-3. Close and open terminal or source the config `source ~/.zshrc`
+1. Install [GitHub CLI](https://cli.github.com) (necessary for `clone_repos`)
+2. Add the functions to your shell configuration file (e.g., `~/.zshrc` for zsh shell) by either:
+    1. Copying the desired functions from `bulk-utils.sh` directly
+    2. Importing it by adding: `source /path/to/git-utils/bulk-utils.sh`
+3. Reload the shell settings by typing `source ~/.zshrc` or close and reopen the terminal
 
 ## Usage
 
