@@ -13,7 +13,7 @@ clone_repos() {
 
   # Login to GitHub
   if [ -z "$2" ]; then
-    # Log in and configure ssh for git operations
+    # Log in and configure ssh for git operations if no auth token is provided
     gh auth login --hostname github.com -p ssh
 
     # Ask whether to include archived repos
@@ -27,20 +27,32 @@ clone_repos() {
         esac
     done
   else 
-    # Log in using provided token
+    # Log in using the provided token
     gh auth login --hostname github.com --with-token "${2}"
   fi
 
-  # Create a temporary file with all the repositories for that user/org
-  gh repo list "$user_or_org" $( (( incl_archived==0 )) && printf %s '--no-archived') | awk NF=1 > repos.txt
+  # Create a tmp file with all the repositories for that user/org
+  gh repo list "$user_or_org" $( (( include_archived==0 )) && printf %s '--no-archived') | awk NF=1 > .repos_to_clone.txt
 
-  # Clone all the repositories
+  # Create a tmp file with all the repositories that already exist in the folder
+  find . -mindepth 1 -maxdepth 1 -type d > .folders.txt
+  touch .existing_repos.txt
+  while read e; do
+    echo -e ${e/".\/"/"${user_or_org}/"} >> .existing_repos.txt
+  done <.folders.txt
+
+  # Clone all the repositories that do not exist yet
   while read p; do
-    echo "Attempting to clone $p"
-    gh repo clone $p
-  done <repos.txt
+    if grep -Fxq "$p" .existing_repos.txt; then
+        echo "$p already exists"
+    else
+      gh repo clone $p
+    fi
+  done <.repos_to_clone.txt
 
-  rm repos.txt
+  rm .repos_to_clone.txt
+  rm .folders.txt
+  rm .existing_repos.txt
 }
 
 # Pulls all branches from remote for all the git repositories in the current folder
