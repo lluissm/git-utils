@@ -32,7 +32,7 @@ clone_repos() {
   fi
 
   # Create a tmp file with all the repositories for that user/org
-  gh repo list "$user_or_org" $( (( include_archived==0 )) && printf %s '--no-archived') | awk NF=1 > .repos_to_clone.txt
+  gh repo list "$user_or_org" --limit 1000 $( (( include_archived==0 )) && printf %s '--no-archived') | awk NF=1 > .repos_to_clone.txt
 
   # Create a tmp file with all the repositories that already exist in the folder
   find . -mindepth 1 -maxdepth 1 -type d > .folders.txt
