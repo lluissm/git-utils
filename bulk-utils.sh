@@ -57,5 +57,5 @@ clone_repos() {
 
 # Pulls all branches from remote for all the git repositories in the current folder
 update_repos() {
-  find . -mindepth 1 -maxdepth 1 -type d -exec sh -c 'echo "Updating ${}" && (cd {} && git pull --all)' ';'
+  find . -mindepth 1 -maxdepth 1 -type d -exec sh -c 'echo "\033[0;34mUpdating ${} \033[0m" && (cd {} && git pull --all)' ';'
 }
